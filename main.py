@@ -40,3 +40,17 @@ def c_amod15(a, power):
     U.name = "%i^%i mod 15" % (a, power)
     c_U = U.control()
     return c_U
+
+def qft_dagger(n):
+    """n-qubit QFTdagger the first n qubits in circ"""
+    qc = QuantumCircuit(n)
+    # Don't forget the Swaps!
+    for qubit in range(n//2):
+        qc.swap(qubit, n-qubit-1)
+    for j in range(n):
+        for m in range(j):
+            qc.cp(-np.pi/float(2**(j-m)), m, j)
+        qc.h(j)
+    qc.name = "QFT†"
+    return qc
+
