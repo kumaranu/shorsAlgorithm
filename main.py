@@ -1,4 +1,3 @@
-
 import matplotlib.pyplot as plt
 import numpy as np
 from qiskit import QuantumCircuit, Aer, transpile, assemble
@@ -73,8 +72,8 @@ if __name__ == '__main__':
 
     # Measure circuit
     qc.measure(range(n_count), range(n_count))
-    qc.draw(fold=-1)  # -1 means 'do not fold'
-    plt.show()
+    qc.draw(fold=-1, output='mpl')  # -1 means 'do not fold'
+    #qc.draw(output='mpl', filename='shorsAlgoCircuit.png')  # -1 means 'do not fold'
 
     aer_sim = Aer.get_backend('aer_simulator')
     t_qc = transpile(qc, aer_sim)
