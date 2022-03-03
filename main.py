@@ -7,7 +7,6 @@ from math import gcd
 from numpy.random import randint
 import pandas as pd
 from fractions import Fraction
-print("Imports Successful")
 
 def c_amod15(a, power):
     """Controlled multiplication by a mod 15"""
@@ -53,7 +52,6 @@ n_count = 8  # number of counting qubits
 a = 7
 
 if __name__ == '__main__':
-    print('PyCharm')
     # Create QuantumCircuit with n_count counting qubits
     # plus 4 qubits for U to act on
     qc = QuantumCircuit(n_count + 4, n_count)
@@ -77,3 +75,13 @@ if __name__ == '__main__':
     # Measure circuit
     qc.measure(range(n_count), range(n_count))
     qc.draw(fold=-1)  # -1 means 'do not fold'
+
+    aer_sim = Aer.get_backend('aer_simulator')
+    t_qc = transpile(qc, aer_sim)
+    qobj = assemble(t_qc)
+    results = aer_sim.run(qobj).result()
+    counts = results.get_counts()
+    plot_histogram(counts)
+
+
+print("Finished all the steps.")
