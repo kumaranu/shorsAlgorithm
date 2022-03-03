@@ -9,6 +9,10 @@ import pandas as pd
 from fractions import Fraction
 print("Imports Successful")
 
+# Specify variables
+n_count = 8  # number of counting qubits
+a = 7
+
 if __name__ == '__main__':
     print('PyCharm')
 
