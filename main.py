@@ -46,10 +46,9 @@ def qft_dagger(n):
     qc.name = "QFT†"
     return qc
 
-
 # Specify variables
 n_count = 8  # number of counting qubits
-a = 7
+a = 13
 
 if __name__ == '__main__':
     # Create QuantumCircuit with n_count counting qubits
@@ -75,6 +74,7 @@ if __name__ == '__main__':
     # Measure circuit
     qc.measure(range(n_count), range(n_count))
     qc.draw(fold=-1)  # -1 means 'do not fold'
+    plt.show()
 
     aer_sim = Aer.get_backend('aer_simulator')
     t_qc = transpile(qc, aer_sim)
@@ -82,6 +82,28 @@ if __name__ == '__main__':
     results = aer_sim.run(qobj).result()
     counts = results.get_counts()
     plot_histogram(counts)
+    plt.show()
 
+    rows, measured_phases = [], []
+    for output in counts:
+        decimal = int(output, 2)  # Convert (base 2) string to decimal
+        phase = decimal/(2**n_count)  # Find corresponding eigenvalue
+        measured_phases.append(phase)
+        # Add these values to the rows in our table:
+        rows.append([f"{output}(bin) = {decimal:>3}(dec)",
+                     f"{decimal}/{2**n_count} = {phase:.2f}"])
+    # Print the rows in a table
+    headers=["Register Output", "Phase"]
+    df = pd.DataFrame(rows, columns=headers)
+    print(df)
 
-print("Finished all the steps.")
+    rows = []
+    for phase in measured_phases:
+        frac = Fraction(phase).limit_denominator(15)
+        rows.append([phase, f"{frac.numerator}/{frac.denominator}", frac.denominator])
+    # Print as a table
+    headers=["Phase", "Fraction", "Guess for r"]
+    df = pd.DataFrame(rows, columns=headers)
+    print(df)
+
+    print("Finished all the steps.")
