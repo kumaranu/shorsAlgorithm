@@ -9,13 +9,6 @@ import pandas as pd
 from fractions import Fraction
 print("Imports Successful")
 
-# Specify variables
-n_count = 8  # number of counting qubits
-a = 7
-
-if __name__ == '__main__':
-    print('PyCharm')
-
 def c_amod15(a, power):
     """Controlled multiplication by a mod 15"""
     if a not in [2,7,8,11,13]:
@@ -54,3 +47,33 @@ def qft_dagger(n):
     qc.name = "QFT†"
     return qc
 
+
+# Specify variables
+n_count = 8  # number of counting qubits
+a = 7
+
+if __name__ == '__main__':
+    print('PyCharm')
+    # Create QuantumCircuit with n_count counting qubits
+    # plus 4 qubits for U to act on
+    qc = QuantumCircuit(n_count + 4, n_count)
+
+    # Initialize counting qubits
+    # in state |+>
+    for q in range(n_count):
+        qc.h(q)
+
+    # And auxiliary register in state |1>
+    qc.x(3+n_count)
+
+    # Do controlled-U operations
+    for q in range(n_count):
+        qc.append(c_amod15(a, 2**q),
+                  [q] + [i+n_count for i in range(4)])
+
+    # Do inverse-QFT
+    qc.append(qft_dagger(n_count), range(n_count))
+
+    # Measure circuit
+    qc.measure(range(n_count), range(n_count))
+    qc.draw(fold=-1)  # -1 means 'do not fold'
