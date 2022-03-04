@@ -51,8 +51,7 @@ def a2jmodN(a, j, N):
         a = np.mod(a**2, N)
     return a
 
-def qpe_amod15(a):
-    n_count = 8
+def qpe_amod15(a,n_count):
     qc = QuantumCircuit(4+n_count, n_count)
     for q in range(n_count):
         qc.h(q)     # Initialize counting qubits in state |+>
@@ -62,6 +61,11 @@ def qpe_amod15(a):
                   [q] + [i+n_count for i in range(4)])
     qc.append(qft_dagger(n_count), range(n_count)) # Do inverse-QFT
     qc.measure(range(n_count), range(n_count))
+    #qc.draw(fold=-1, scale=1.8, output='mpl')  # -1 means 'do not fold'
+    qc.draw(fold=-1, scale=1.8, output='latex')  # -1 means 'do not fold'
+    plt.show()
+    #qc.draw(output='mpl', filename='shorsAlgoCircuit.png')  # -1 means 'do not fold'
+
     # Simulate Results
     aer_sim = Aer.get_backend('aer_simulator')
     # Setting memory=True below allows us to see a list of each sequential reading
@@ -70,14 +74,12 @@ def qpe_amod15(a):
     result = aer_sim.run(qobj, memory=True).result()
     readings = result.get_memory()
     print("Register Reading: " + readings[0])
-    phase = int(readings[0],2)/(2**n_count)
+    phase = int(readings[0], 2)/(2**n_count)
     print("Corresponding Phase: %f" % phase)
+    counts = result.get_counts()
+    plot_histogram(counts)
+    plt.show()
     return phase
-
-
-# Specify variables
-n_count = 5  # number of counting qubits
-a = 13
 
 if __name__ == '__main__':
     ## Create QuantumCircuit with n_count counting qubits
@@ -135,15 +137,13 @@ if __name__ == '__main__':
     #df = pd.DataFrame(rows, columns=headers)
     #print(df)
 
-    print("Finished all the steps.")
-    N = 15
-    a = 7
+    N, a, n_count = 15, 7, 8
     factor_found = False
     attempt = 0
     while not factor_found:
         attempt += 1
         print("\nAttempt %i:" % attempt)
-        phase = qpe_amod15(a) # Phase = s/r
+        phase = qpe_amod15(a, n_count) # Phase = s/r
         frac = Fraction(phase).limit_denominator(N) # Denominator should (hopefully!) tell us r
         r = frac.denominator
         print("Result: r = %i" % r)
