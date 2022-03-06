@@ -9,22 +9,22 @@ from fractions import Fraction
 
 def c_amod15(a, power):
     """Controlled multiplication by a mod 15"""
-    if a not in [2,7,8,11,13]:
+    if a not in [2, 7, 8, 11, 13]:
         raise ValueError("'a' must be 2,7,8,11 or 13")
     U = QuantumCircuit(4)
     for iteration in range(power):
-        if a in [2,13]:
-            U.swap(0,1)
-            U.swap(1,2)
-            U.swap(2,3)
-        if a in [7,8]:
-            U.swap(2,3)
-            U.swap(1,2)
-            U.swap(0,1)
+        if a in [2, 13]:
+            U.swap(0, 1)
+            U.swap(1, 2)
+            U.swap(2, 3)
+        if a in [7, 8]:
+            U.swap(2, 3)
+            U.swap(1, 2)
+            U.swap(0, 1)
         if a == 11:
-            U.swap(1,3)
-            U.swap(0,2)
-        if a in [7,11,13]:
+            U.swap(1, 3)
+            U.swap(0, 2)
+        if a in [7, 11, 13]:
             for q in range(4):
                 U.x(q)
     U = U.to_gate()
@@ -61,8 +61,8 @@ def qpe_amod15(a,n_count):
                   [q] + [i+n_count for i in range(4)])
     qc.append(qft_dagger(n_count), range(n_count)) # Do inverse-QFT
     qc.measure(range(n_count), range(n_count))
-    #qc.draw(fold=-1, scale=1.8, output='mpl')  # -1 means 'do not fold'
-    qc.draw(fold=-1, scale=1.8, output='latex')  # -1 means 'do not fold'
+    qc.draw(fold=-1, output='mpl')  # -1 means 'do not fold'
+    #qc.draw(fold=-1, output='latex')  # -1 means 'do not fold'
     plt.show()
     #qc.draw(output='mpl', filename='shorsAlgoCircuit.png')  # -1 means 'do not fold'
 
