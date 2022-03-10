@@ -137,7 +137,7 @@ if __name__ == '__main__':
     #df = pd.DataFrame(rows, columns=headers)
     #print(df)
 
-    N, a, n_count = 15, 7, 8
+    N, a, n_count = 15, 2, 2
     factor_found = False
     attempt = 0
     while not factor_found:

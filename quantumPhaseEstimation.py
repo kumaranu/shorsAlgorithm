@@ -38,102 +38,102 @@ if __name__ == '__main__':
     #qpe.draw(fold=-1, output='mpl')
     #plt.show()
 
-    qpe.barrier()
-    #qpe.draw(fold=-1, output='mpl')
-    #plt.show()
+    #swaqpe.barrier()
+    ##qpe.draw(fold=-1, output='mpl')
+    ##plt.show()
 
-    qft_dagger(qpe, 3)
-    qpe.barrier()
-    for n in range(3):
-        qpe.measure(n, n)
-    #qpe.draw(fold=-1, output='mpl')
-    #plt.show()
+    #qft_dagger(qpe, 3)
+    #qpe.barrier()
+    #for n in range(3):
+    #    qpe.measure(n, n)
+    ##qpe.draw(fold=-1, output='mpl')
+    ##plt.show()
 
-    aer_sim = Aer.get_backend('aer_simulator')
-    shots = 2048
-    t_qpe = transpile(qpe, aer_sim)
-    qobj = assemble(t_qpe, shots=shots)
-    results = aer_sim.run(qobj).result()
-    answer = results.get_counts()
+    #aer_sim = Aer.get_backend('aer_simulator')
+    #shots = 2048
+    #t_qpe = transpile(qpe, aer_sim)
+    #qobj = assemble(t_qpe, shots=shots)
+    #results = aer_sim.run(qobj).result()
+    #answer = results.get_counts()
 
-    #plot_histogram(answer)
-    #plt.show()
+    ##plot_histogram(answer)
+    ##plt.show()
 
-    # Create and set up circuit
-    qpe2 = QuantumCircuit(4, 3)
+    ## Create and set up circuit
+    #qpe2 = QuantumCircuit(4, 3)
 
-    # Apply H-Gates to counting qubits:
-    for qubit in range(3):
-        qpe2.h(qubit)
+    ## Apply H-Gates to counting qubits:
+    #for qubit in range(3):
+    #    qpe2.h(qubit)
 
-    # Prepare our eigenstate |psi>:
-    qpe2.x(3)
+    ## Prepare our eigenstate |psi>:
+    #qpe2.x(3)
 
-    # Do the controlled-U operations:
-    angle = 2*math.pi/3
-    repetitions = 1
-    for counting_qubit in range(3):
-        for i in range(repetitions):
-            qpe2.cp(angle, counting_qubit, 3);
-        repetitions *= 2
+    ## Do the controlled-U operations:
+    #angle = 2*math.pi/3
+    #repetitions = 1
+    #for counting_qubit in range(3):
+    #    for i in range(repetitions):
+    #        qpe2.cp(angle, counting_qubit, 3);
+    #    repetitions *= 2
 
-    # Do the inverse QFT:
-    qft_dagger(qpe2, 3)
+    ## Do the inverse QFT:
+    #qft_dagger(qpe2, 3)
 
-    # Measure of course!
-    for n in range(3):
-        qpe2.measure(n,n)
+    ## Measure of course!
+    #for n in range(3):
+    #    qpe2.measure(n,n)
 
-    #qpe2.draw(fold=-1, output='mpl')
-    #plt.show()
+    ##qpe2.draw(fold=-1, output='mpl')
+    ##plt.show()
 
-    # Let's see the results!
-    aer_sim = Aer.get_backend('aer_simulator')
-    shots = 4096
-    t_qpe2 = transpile(qpe2, aer_sim)
-    qobj = assemble(t_qpe2, shots=shots)
-    results = aer_sim.run(qobj).result()
-    answer = results.get_counts()
+    ## Let's see the results!
+    #aer_sim = Aer.get_backend('aer_simulator')
+    #shots = 4096
+    #t_qpe2 = transpile(qpe2, aer_sim)
+    #qobj = assemble(t_qpe2, shots=shots)
+    #results = aer_sim.run(qobj).result()
+    #answer = results.get_counts()
 
-    #plot_histogram(answer)
-    #plt.show()
+    ##plot_histogram(answer)
+    ##plt.show()
 
-    # Create and set up circuit
-    qpe3 = QuantumCircuit(6, 5)
+    ## Create and set up circuit
+    #qpe3 = QuantumCircuit(6, 5)
 
-    # Apply H-Gates to counting qubits:
-    for qubit in range(5):
-        qpe3.h(qubit)
+    ## Apply H-Gates to counting qubits:
+    #for qubit in range(5):
+    #    qpe3.h(qubit)
 
-    # Prepare our eigenstate |psi>:
-    qpe3.x(5)
+    ## Prepare our eigenstate |psi>:
+    #qpe3.x(5)
 
-    # Do the controlled-U operations:
-    angle = 2*math.pi/3
-    repetitions = 1
-    for counting_qubit in range(5):
-        for i in range(repetitions):
-            qpe3.cp(angle, counting_qubit, 5);
-        repetitions *= 2
+    ## Do the controlled-U operations:
+    #angle = 2*math.pi/3
+    #repetitions = 1
+    #for counting_qubit in range(5):
+    #    for i in range(repetitions):
+    #        qpe3.cp(angle, counting_qubit, 5);
+    #    repetitions *= 2
 
-    # Do the inverse QFT:
-    qft_dagger(qpe3, 5)
+    ## Do the inverse QFT:
+    #qft_dagger(qpe3, 5)
 
-    # Measure of course!
-    qpe3.barrier()
-    for n in range(5):
-        qpe3.measure(n,n)
+    ## Measure of course!
+    #qpe3.barrier()
+    #for n in range(5):
+    #    qpe3.measure(n,n)
 
     #qpe3.draw(fold=-1, output='mpl')
     #plt.show()
 
-    # Let's see the results!
-    aer_sim = Aer.get_backend('aer_simulator')
-    shots = 4096
-    t_qpe3 = transpile(qpe3, aer_sim)
-    qobj = assemble(t_qpe3, shots=shots)
-    results = aer_sim.run(qobj).result()
-    answer = results.get_counts()
+    ## Let's see the results!
+    #aer_sim = Aer.get_backend('aer_simulator')
+    #shots = 4096
+    #t_qpe3 = transpile(qpe3, aer_sim)
+    #qobj = assemble(t_qpe3, shots=shots)
+    #results = aer_sim.run(qobj).result()
+    #answer = results.get_counts()
 
     #plot_histogram(answer)
     #plt.show()
