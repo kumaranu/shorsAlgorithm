@@ -7,7 +7,6 @@ from qiskit.providers.ibmq import least_busy
 from qiskit.tools.monitor import job_monitor
 from qiskit.visualization import plot_histogram, plot_bloch_multivector
 from qiskit_textbook.widgets import scalable_circuit
-
 def qft_rotations(circuit, n):
     if n == 0: # Exit function if circuit is empty
         return circuit
@@ -18,7 +17,6 @@ def qft_rotations(circuit, n):
         # smaller-angled controlled rotation:
         circuit.cp(pi/2**(n-qubit), qubit, n)
     qft_rotations(circuit, n)
-
 def swap_registers(circuit, n):
     for qubit in range(n//2):
         circuit.swap(qubit, n-qubit-1)
@@ -28,7 +26,6 @@ def qft(circuit, n):
     qft_rotations(circuit, n)
     swap_registers(circuit, n)
     return circuit
-
 def inverse_qft(circuit, n):
     """Does the inverse QFT on the first n qubits in circuit"""
     # First we create a QFT circuit of the correct size:
@@ -38,7 +35,6 @@ def inverse_qft(circuit, n):
     # And add it to the first n qubits in our existing circuit
     circuit.append(invqft_circ, circuit.qubits[:n])
     return circuit.decompose() # .decompose() allows us to see the individual gates
-
 if __name__ == '__main__':
     print('Attempting a 3-qubit case of quantum Fourier Transform')
     qc = QuantumCircuit(3)
@@ -150,4 +146,3 @@ if __name__ == '__main__':
     #counts = job.result().get_counts()
     #plot_histogram(counts)
 
-    
