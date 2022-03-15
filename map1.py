@@ -1,4 +1,4 @@
-import random
+import random, matplotlib.pyplot as plt
 import numpy as np
 from scipy.fft import fft, ifft
 
@@ -7,7 +7,6 @@ nSteps, nTerms = 5, 3
 v = np.asarray([0.4, 0.1, 0.01])
 x = np.arange(99)
 f1 = np.exp(-(x-1)**2) + np.exp(-x**2)
-f2 = np.exp(-(x-2)**2) + np.exp(-x**2)
 
 #normalization and binning
 normalized_v = v / np.sqrt(np.sum(v**2))
@@ -25,4 +24,11 @@ for i in range(nSteps):
             print(n, i, j)
 
 fft_x = fft(f1)
-print(fft_x)
+plt.plot(x, f1, label='linear')
+plt.plot(x, fft_x.real, label='fft_real')
+plt.plot(x, fft_x.imag, label='fft_imag')
+plt.xlabel('x')
+plt.ylabel('')
+plt.legend()
+plt.show()
+
